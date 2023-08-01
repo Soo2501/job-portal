@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+            <div class="form-data">
+                <label for="username">Username: </label>
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="form-data">
+                <label for="password">Password: </label>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="form-data">
+                <button type="submit">Login</button>
+            </div>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <p>don't have an account?<a href="{% url 'signup' %}"> signup</a></p>
+    
+</body>
+</html>

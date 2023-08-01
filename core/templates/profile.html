@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block style %}
+<style>
+.data{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+.data input{
+    height: 30px;
+    width: 100%;
+}
+.btm{
+    width: 90px;
+    height: 30px;
+    border:none;
+    font-size: 18px;
+    margin: 10px;
+}
+
+/* edu */
+.abc {
+  margin: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  font-weight: bold;
+}
+/* edu */
+
+</style>
+{% endblock %}
+{% block content %}
+<div class="profile" style=" background-color: rgb(247, 247, 239);">
+    <div class="upper" style="display: flex;">
+        <div class="main" style=" margin: 10px; padding: 20px; width:20vw; box-shadow: 2px 2px 2px 2px gainsboro;">
+            <div class="img">
+                <img style="height: 300px; width: 300px; border-radius: 50%;" src="{{user.profile.url}}" alt="Profile Picture is loading..">
+            </div>
+            <div class="datas">
+                <h2>Name: {{user.user.first_name}} {{user.user.last_name}}</h2>
+                <h3>Birth Date: {{user.birthdate}}</h3>
+                <h3>Phone: {{user.phone}}</h3>
+                <h3>Address: {{user.Address}}</h3>
+                <h3>Email: {{user.user.email}}</h3>
+            </div>
+            {% if page != 'update' %}
+                <button style="background-color: #26baee; border: none; height: 30px; width: 80px;" onmouseover="this.style.backgroundColor='#183c49';" onmouseout="this.style.backgroundColor='#26baee';"><a href="{% url 'update' %}" style="color: white; text-decoration: none;">Edit</a></button>
+            {% endif %}
+            
+            {% if page == 'update' %}
+            <hr>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="data">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" value="{{user.user.first_name}}">
+                    </div>
+                    <div class="data">
+                        <label for="lastname">Last Name</label>
+                        <input type="text" name="lasttname" value="{{user.user.last_name}}">
+                    </div>
+                    <div class="data">
+                        <label for="username">Username</label>
+                        <input type="text" name="username" value="{{user.user.username}}">
+                    </div>
+                    <div class="data">
+                        <label for="birthdate">Birth Date</label>
+                        <input type="date" name="birthdate">
+                    </div>
+                    <div class="data">
+                        <label for="profile">Profile Picture</label>
+                        <input type="file" name="profile">
+                    </div>
+                    <div class="data">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" value="{{user.user.email}}">
+                    </div>
+                    <div class="data">
+                        <label for="phone">Phone</label>
+                        <input type="text" name="phone" value="{{user.phone}}">
+                    </div>
+                    <div class="data">
+                        <label for="phone1">Phone 1</label>
+                        <input type="char" name="phone1" value="{{user.phone1}}">
+                    </div>
+                    <input class="btm" type="submit" value="Submit" style="background-color: #26baee; color: white; border: none;">
+                </form>
+            {% endif %}
+        </div>
+        <div class="education" style="margin: 10px; margin-left: 0px; width: 40vw; box-shadow: 2px 2px 2px 2px gainsboro">
+            <div class="education-data">
+                <h2 style="text-align: center;">Education</h2>
+                <div class="contents">
+                    <div class="abc">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Degree</th>
+                                <th>School Name</th>
+                                <th>Completion Name</th>
+                                <th>CGPA</th>
+                            </tr>
+                            {% for edu in edu %}
+                            <tr>
+                                <td>{{edu.name}}</td>
+                                <td>{{edu.degree}}</td>
+                                <td>{{edu.school_name}}</td>
+                                <td>{{edu.date}}</td>
+                                <td>{{edu.gpa}} gpa</td>
+                                <td style="display:flex;"><button style="margin: 2px; background-color: red; border: none;" onmouseover="this.style.backgroundColor='#3f0505';" onmouseout="this.style.backgroundColor='red';"><a href="{% url 'delete' edu.id %}" style="text-decoration: none; color: white;">Delete</a></button>
+                                            <button style="margin: 2px; background-color: green; border: none;" onmouseover="this.style.backgroundColor='rgb(16, 53, 16)';" onmouseout="this.style.backgroundColor='green';"><a href="{% url 'edit' edu.id %}" style="text-decoration: none; color: white;">Edit</a></button></td>
+                            </tr>
+                            {% endfor %}
+                        </table>    
+                    </div>
+                    {% if page != "addedu" %}
+                        <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'add-edu' %}">Add More</a></button>
+                    {% endif %}
+                </div>
+            </div>
+            {% if page == "addedu" %}
+            <hr>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="data" style="margin-top: 0%;">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" value="{{edu.name}}">
+                    </div>
+                    <div class="data">
+                        <label for="degree">Degree:</label>
+                        <input type="text" name="degree" value="{{edu.name}}">
+                    </div>
+                    <div class="data">
+                        <label for="school_name">School Name:</label>
+                        <input type="text" name="school_name" value="{{edu.school_name}}">
+                    </div>
+                    <div class="data">
+                        <label for="date">Completion Date:</label>
+                        <input type="date" name="date" value="{{edu.date}}">
+                    </div>
+                    <div class="data">
+                        <label for="gpa">CGPA:</label>
+                        <input type="text" name="gpa" value="{{edu.gpa}}">
+                    </div>
+                    <div class="data">
+                        <label for="image">Marksheet:</label>
+                        <input type="file" name="image" >
+                    </div>
+                    <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

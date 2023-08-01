@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {% block style %}
+    {% endblock %}
+    <style>
+        /* .navv{
+            list-style: none;
+        }
+        header{
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: space-around;
+        }
+        ul{
+            display: flex;
+        } */
+    </style>
+</head>
+<body style="margin: 0%; padding: 0%;">
+    <!-- <header>
+        <p><a href="{% url 'home' %}">YourDream Jobs</a></p>
+        <nav>
+            <ul>
+                <li class="navv"><a href="#">Home</a></li>
+                <select name="category" class="navv" value="category">
+                    <option value="category">IT</option>
+                    <option value="category">Banking</option>
+                    <option value="category">Insurence</option>
+                    <option value="category">Delivery</option>
+                    <option value="category">Doctor</option>
+                </select>
+                <li class="navv"><a href="#">About</a></li>
+                <li class="navv"><a href="#">Contact</a></li>
+                {%  if user.type == company %}
+                    <li class="navv" style="background-color: #26baee; width: 150px; height: 40px; text-align: center;"><a href="#" style="text-decoration: none; color: white;">+ Post a job</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header> -->
+    <nav class="navbar navbar-inverse" style=" background-color: white; border: none; margin-bottom: 0%; height: 60px;">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'home' %}" style="color: black; font-size: 25px;">YourDream Job</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'home' %}" style="color: rgb(124, 122, 122); font-size: 18px;">Home</a></li>
+            <li><a href="#" style="color: rgb(124, 122, 122); font-size: 18px;">Category</a></li>
+            <li><a href="#" style="color: rgb(124, 122, 122); font-size: 18px;">Blogs</a></li>
+            <li><a href="#" style="color: rgb(124, 122, 122); font-size: 18px;">About</a></li>
+            <li><a href="#" style="color: rgb(124, 122, 122); font-size: 18px;">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'profile' %}" style="color: black; font-size: 15px;"><span class="glyphicon glyphicon-user"></span>{{request.user}}</a></li>
+                <li><a href="{% url 'logout' %}" style="color: black; font-size: 15px;"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}" style="color: black; font-size: 15px;"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="{% url 'login' %}" style="color: black; font-size: 15px;"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            {% endif %}
+        </ul>
+        </div>
+      </nav> 
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
