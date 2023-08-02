@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block style %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <style>
 .data{
     display: flex;
@@ -39,10 +40,18 @@ th {
 }
 /* edu */
 
+/* skills */
+.ul{
+    margin-right: 20px;
+}
+.ul-li{
+    font-size: 18px;
+}
+/* skills */
 </style>
 {% endblock %}
 {% block content %}
-<div class="profile" style=" background-color: rgb(247, 247, 239);">
+<div class="profile" style=" background-color: rgb(247, 247, 239); height: 95vh;">
     <div class="upper" style="display: flex;">
         <div class="main" style=" margin: 10px; padding: 20px; width:20vw; box-shadow: 2px 2px 2px 2px gainsboro;">
             <div class="img">
@@ -96,6 +105,7 @@ th {
                         <input type="char" name="phone1" value="{{user.phone1}}">
                     </div>
                     <input class="btm" type="submit" value="Submit" style="background-color: #26baee; color: white; border: none;">
+                    <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
                 </form>
             {% endif %}
         </div>
@@ -107,9 +117,9 @@ th {
                         <table>
                             <tr>
                                 <th>Name</th>
-                                <th>Degree</th>
+                                <th>Board</th>
                                 <th>School Name</th>
-                                <th>Completion Name</th>
+                                <th>Completion Date</th>
                                 <th>CGPA</th>
                             </tr>
                             {% for edu in edu %}
@@ -119,8 +129,8 @@ th {
                                 <td>{{edu.school_name}}</td>
                                 <td>{{edu.date}}</td>
                                 <td>{{edu.gpa}} gpa</td>
-                                <td style="display:flex;"><button style="margin: 2px; background-color: red; border: none;" onmouseover="this.style.backgroundColor='#3f0505';" onmouseout="this.style.backgroundColor='red';"><a href="{% url 'delete' edu.id %}" style="text-decoration: none; color: white;">Delete</a></button>
-                                            <button style="margin: 2px; background-color: green; border: none;" onmouseover="this.style.backgroundColor='rgb(16, 53, 16)';" onmouseout="this.style.backgroundColor='green';"><a href="{% url 'edit' edu.id %}" style="text-decoration: none; color: white;">Edit</a></button></td>
+                                <td style="display:flex;"><button style="margin: 2px; background-color: red; border: none;" onmouseover="this.style.backgroundColor='#3f0505';" onmouseout="this.style.backgroundColor='red';"><a href="{% url 'delete' edu.id %}" style=" text-decoration: none; color: white;"><span class="material-symbols-outlined">delete</span></a></button>
+                                <button style="margin: 2px; background-color: green; border: none;" onmouseover="this.style.backgroundColor='rgb(16, 53, 16)';" onmouseout="this.style.backgroundColor='green';"><a href="{% url 'edit' edu.id %}" style="text-decoration: none; color: white;"><span class="material-symbols-outlined">edit</span></a></button></td>
                             </tr>
                             {% endfor %}
                         </table>    
@@ -132,35 +142,150 @@ th {
             </div>
             {% if page == "addedu" %}
             <hr>
-                <form method="post" enctype="multipart/form-data">
+                <form style="margin-bottom: 20px;" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="data" style="margin-top: 0%;">
                         <label for="name">Name:</label>
-                        <input type="text" name="name" value="{{edu.name}}">
+                        <input type="text" name="name" value="{{edu.name}}" required>
                     </div>
                     <div class="data">
                         <label for="degree">Degree:</label>
-                        <input type="text" name="degree" value="{{edu.name}}">
+                        <input type="text" name="degree" value="{{edu.name}}" required>
                     </div>
                     <div class="data">
                         <label for="school_name">School Name:</label>
-                        <input type="text" name="school_name" value="{{edu.school_name}}">
+                        <input type="text" name="school_name" value="{{edu.school_name}}" required>
                     </div>
                     <div class="data">
                         <label for="date">Completion Date:</label>
-                        <input type="date" name="date" value="{{edu.date}}">
+                        <input type="date" name="date" value="{{edu.date}}" required>
                     </div>
                     <div class="data">
                         <label for="gpa">CGPA:</label>
-                        <input type="text" name="gpa" value="{{edu.gpa}}">
+                        <input type="text" name="gpa" value="{{edu.gpa}}" required>
                     </div>
                     <div class="data">
                         <label for="image">Marksheet:</label>
-                        <input type="file" name="image" >
+                        <input type="file" name="image" required>
                     </div>
                     <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                    <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
                 </form>
             {% endif %}
+            <hr>
+            <div class="trainings">
+                <h2 style="text-align: center;">Trainings</h2>
+                <div class="contents">
+                    <div class="abc">
+                        <table>
+                            <tr>
+                                <th>Training Name</th>
+                                <th>Institute Name</th>
+                                <th>Starting Date</th>
+                                <th>Ending Date</th>
+                            </tr>
+                            {% for train in train %}
+                            <tr>
+                                <td>{{train.name}}</td>
+                                <td>{{train.institute_name}}</td>
+                                <td>{{train.starting_date}}</td>
+                                <td>{{train.ending_date}}</td>
+                                <td style="display:flex;"><button style="margin: 2px; background-color: red; border: none;" onmouseover="this.style.backgroundColor='#3f0505';" onmouseout="this.style.backgroundColor='red';"><a href="{% url 'train-delete' train.id %}" style=" text-decoration: none; color: white;"><span class="material-symbols-outlined">delete</span></a></button>
+                                <button style="margin: 2px; background-color: green; border: none;" onmouseover="this.style.backgroundColor='rgb(16, 53, 16)';" onmouseout="this.style.backgroundColor='green';"><a href="#" style="text-decoration: none; color: white;"><span class="material-symbols-outlined">edit</span></a></button></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                    {% if page != "addtrain" %}
+                        <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'add-train' %}">Add More</a></button>
+                    {% endif %}
+                </div>
+            </div>
+            {% if page == "addtrain" %}
+            <hr>
+                <form style="margin-bottom: 20px;" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="data" style="margin-top: 0%;">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" value="{{edu.name}}" required>
+                    </div>
+                    <div class="data">
+                        <label for="sdate">Starting Date:</label>
+                        <input type="date" name="sdate" required>
+                    </div>
+                    <div class="data">
+                        <label for="edate">Starting Date:</label>
+                        <input type="date" name="edate" required>
+                    </div>
+                    <div class="data">
+                        <label for="iname">Institute Name:</label>
+                        <input type="text" name="iname" required>
+                    </div>
+                    <div class="data">
+                        <label for="image">Marksheet:</label>
+                        <input type="file" name="image" required>
+                    </div>
+                    <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                    <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
+                </form>
+            {% endif %}
+        </div>
+    <!-- </div> -->
+    <!-- <div class="bottom" style="padding-bottom: 20px; display: flex;"> -->
+        <div class="skills" style="width: 20vw; margin :10px; box-shadow: 2px 2px 2px 2px gainsboro">
+            <h2 style="text-align: center; margin-top: 0%; padding-top: 20px; margin-bottom: 20px;">Skills</h2>
+            <hr>
+            <div class="skill" style="padding-bottom: 20px ;">
+                <ul class="ul" style="padding-bottom: 10px;">
+                    {% for skills in skills %}
+                        {% if skills.skills %}
+                        <li class="ul-li">{{skills.skills}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if page != "skills" %}
+                <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'skills' %}">Add More</a></button>
+                {% endif %}
+                {% if page == "skills" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="data">
+                            <label for="skills">Skills Name:</label>
+                            <input type="text" name="skills" required>
+                        </div>
+                        <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                        <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+        <div class="skills" style="width: 20vw; margin: 10px; box-shadow: 2px 2px 2px 2px gainsboro">
+            
+            <h2 style="text-align: center; margin-top: 0%; padding-top: 20px; margin-bottom: 20px;">language</h2>
+            <hr>
+            <div class="skill" style="padding-bottom: 20px ;">
+                <ul class="ul" style="padding-bottom: 10px;">
+                    {% for language in skills %}
+                        {% if language.language %}
+                        <li class="ul-li">{{language.language}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if page != "language" %}
+                <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'language' %}">Add More</a></button>
+                {% endif %}
+                {% if page == "language" %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="data">
+                            <label for="langugae">Language:</label>
+                            <input type="text" name="language" required>
+                        </div>
+                        <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                        <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
+                    </form>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

@@ -1,4 +1,44 @@
 {% extends './base.html' %}
+
+{% block style %}
+<style>
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+    
+  .step-links a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+  }
+  
+  /* Current page indicator */
+  .current {
+    font-weight: bold;
+  }
+  
+  /* Styling for first and last page links */
+  .step-links a:first-child,
+  .step-links a:last-child {
+    border: 1px solid #26baee;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .step-links a:nth-child(2),
+  .step-links a:nth-last-child(2) {
+    background-color: #26baee;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  .step-links a:first-child:empty,
+  .step-links a:last-child:empty {
+    display: none;
+  }
+</style>
+{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <style>
@@ -69,7 +109,6 @@
                     <option value="category">Category</option>
                     <option value="fulltime">FullTime</option>
                     <option value="parttime">PartTime</option>
-                    <option value="freelance">FreeLance</option>
                     <option value="internship">Internship</option>
                     <option value="contract">Contract</option>
                 </select>
@@ -79,138 +118,50 @@
         </div>
     </div>
 </div>
-<div class="dataa bg-light" style="height: 100vh;">
+<div class="dataa bg-light"  style="margin-bottom: 90px;">
     <div class="inner" style="margin-top: 50px; margin-bottom: 50px; display: flex; justify-content: space-around;">
         <h2>Recent Jobs</h2>
-        <button style="height: 40px; width: 200px;">+ Post a Task</button>
+        <button style="height: 40px; width: 200px;"><a href="{% url 'add-job' %}" style="text-decoration: none; color: white;">+ Post a Task</a></button>
     </div>
 
     <!-- job card starts here -->
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">Parttime</p>
+    {% for jobs in page_obj %}
+        <div class="abcs" style="display: flex; justify-content: center;">
+            <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
+                <div class="left">
+                    <div class="inner-left" style="display: flex;">
+                        <h2>{{jobs.title}}</h2>
+                        <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">{{jobs.jtype}}</p>
+                    </div>
+                    <div class="inner-left" style="display: flex;">
+                        <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="{{jobs.wsite}}" target="_blank"> {{jobs.company}}</a></p>
+                        <p><span class="material-symbols-outlined">location_on</span> {{jobs.location}} </p>
+                    </div>
                 </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
+                <div class="right" style="display: flex;">
+                    <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
+                    <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="{% url 'apply' jobs.id%}" style="color: white; text-decoration: none;">Apply</a></button>
                 </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
             </div>
         </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: red; border-radius: 10px; margin-left: 10px; margin-top: 20px;">Contract</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">Parttime</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: #26baee; border-radius: 10px; margin-left: 10px; margin-top: 20px;">Internship</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">Parttime</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">Parttime</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
-    </div>
-    <div class="abcs" style="display: flex; justify-content: center;">
-        <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
-            <div class="left">
-                <div class="inner-left" style="display: flex;">
-                    <h2>Frontend Development</h2>
-                    <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">Parttime</p>
-                </div>
-                <div class="inner-left" style="display: flex;">
-                    <p style="margin-right: 10px;"><span class="material-symbols-outlined"> business_center</span><a href="">Cagtu Nepal pvt. ltd.</a></p>
-                    <p><span class="material-symbols-outlined">location_on</span> Baneswor, Kathmandu</p>
-                </div>
-            </div>
-            <div class="right" style="display: flex;">
-                <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="#" style="color: white; text-decoration: none;">Apply</a></button>
-            </div>
-        </div>
+    {% endfor %}
+
+    <div class="pagination" style="margin-top: 40px; display: flex; justify-content: center;">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
     </div>
     <!-- job card ends here -->
 </div>

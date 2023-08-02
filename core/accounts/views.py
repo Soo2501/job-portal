@@ -56,7 +56,10 @@ def user_profile(request):
     content = {
         "title" : "profile",
         "user" : UserProfile.objects.get(user=request.user),
-        "edu" : Education.objects.filter(user=request.user)
+        "edu" : Education.objects.filter(user=request.user),
+        "train" : Training.objects.filter(user=request.user),
+        "skills" : Skills.objects.filter(user=request.user),
+        "paage" : "profile"
 
     }
     return render(request, "profile.html", content)
@@ -65,6 +68,8 @@ def user_profile(request):
 def update_profile(request):
     user = UserProfile.objects.get(user=request.user)
     edu = Education.objects.filter(user=request.user)
+    train = Training.objects.filter(user=request.user)
+    skills = Skills.objects.filter(user=request.user)
 
     if request.method == "POST":
         user.user.first_name = request.POST.get('firstname')
@@ -82,5 +87,5 @@ def update_profile(request):
             user.birthdate = birthdate
         user.save()
         return redirect('profile')
-    return render(request, "profile.html" , {"title":"Update Profile","user":user,"page" : "update",  "edu":edu })
+    return render(request, "profile.html" , {"title":"Update Profile","user":user,"page" : "update", "paage":"profile",  "edu":edu, "train":train, "skills":skills })
 
