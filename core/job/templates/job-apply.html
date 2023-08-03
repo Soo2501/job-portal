@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block style %}
+<style>
+    .content{
+        background-color: rgb(235, 235, 232);
+        padding: 50px;
+    }
+    .apply-form{
+        box-shadow: 2px 2px 1px 1px rgb(153, 150, 150);
+        width: 40vw;
+        margin: 50px;
+        padding: 50px;
+
+    }
+    .form{
+        display: flex;
+        justify-content: center;
+    }
+    .container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+span{
+    color: red;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <!-- <div class="form">
+        <div class="apply-form">
+            <form method="post" enctype="multipart/form-data">
+                <h2>Applying For {{job.title}}</h2>
+                <hr style="color: black; height: 2px;">
+                {% csrf_token %}
+
+                <div class="inner-form">
+                    <label for="name">Name:</label>
+                    <input type="text" name="name" readonly value="{{request.user.first_name}} {{request.user.last_name}}">
+                </div>
+                
+                <div class="inner-form">
+                    <label for="education">Education:</label>
+                    <input type="text" name="education" readonly value="{{request.user.first_name}} {{request.user.last_name}}">
+                </div>
+
+            </form>
+        </div>
+    </div> -->
+    <div class="container">
+        <h1>Apply for a {{job.title}}</h1>
+        <hr>
+        <form action="#" method="post" enctype="multipart/form-data"> 
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{request.user.first_name}} {{request.user.last_name}}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{request.user.email}}" readonly> 
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" name="phone" value="{{profile.phone}}" readonly> 
+            </div>
+            <div class="form-group">
+                <label for="resume">Upload Resume <span>*</span></label>
+                <input type="file" id="resume" name="resume" required>
+            </div>
+            <div class="form-group">
+                <label for="letter">Upload CoverLetter <span>*</span></label>
+                <input type="file" id="letter" name="letter" required>
+            </div>
+            <button type="submit">Submit Application</button>
+        </form>
+    </div>
+</div>
+{% include 'footer.html' %}
+{% endblock %}

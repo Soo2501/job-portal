@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block style %}
+<style>
+    .content{
+        background-color:  rgb(235, 235, 232);
+        height: 70vh;
+    }
+    h2{
+        padding-top: 40px;
+        padding-left: 20px;
+    }
+    .inner-content{
+        margin: 40px;
+        margin-bottom: 0px;
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        gap: 20px;
+        padding-bottom: 100px;
+    }
+    .cards{
+        padding: 20px;
+        padding-top: 10px;
+        width: 400px;
+        box-shadow: 2px 2px 2px 2px gray;
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <h2>Your searched results are:</h2>
+    <hr>
+    <div class="inner-content">
+        {% if jobs %}
+        {% for jobs in jobs %}
+            <div class="cards">
+                <h3><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h3>
+                <p><a href="{{jobs.wsite}}">{{jobs.company}}</a></p>
+                <p>{{jobs.location}}</p>
+                <p>Category: {{jobs.jtype}}</p>
+                <div class="div" style="display: flex; justify-content: space-between;">
+                    <p>deadline: 2021/03/03</p>
+                    <button class="btnn" style="background-color:#26baee; border: none; width: 50px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'apply' jobs.id %}">Apply</a></button>
+                </div>
+            </div>    
+        {% endfor %}
+        {% else %}
+            <p style="font-size: 20px;">Sorry no data found</p>
+        {% endif %}
+    </div>
+</div>
+
+{% include "footer.html" %}
+
+{% endblock %}

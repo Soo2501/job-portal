@@ -21,4 +21,7 @@ class Job(models.Model):
 
 
     def __str__(self):
-        return self.title
+        return self.title +"--"+ self.user.username
+
+    class Meta:
+        ordering = ["-id"]

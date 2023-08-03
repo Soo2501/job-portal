@@ -51,7 +51,7 @@ th {
 </style>
 {% endblock %}
 {% block content %}
-<div class="profile" style=" background-color: rgb(247, 247, 239); height: 95vh;">
+<div class="profile" style=" background-color: rgb(235, 235, 232); height: 95vh;">
     <div class="upper" style="display: flex;">
         <div class="main" style=" margin: 10px; padding: 20px; width:20vw; box-shadow: 2px 2px 2px 2px gainsboro;">
             <div class="img">
@@ -214,7 +214,7 @@ th {
                         <input type="date" name="sdate" required>
                     </div>
                     <div class="data">
-                        <label for="edate">Starting Date:</label>
+                        <label for="edate">Ending Date:</label>
                         <input type="date" name="edate" required>
                     </div>
                     <div class="data">
@@ -222,7 +222,7 @@ th {
                         <input type="text" name="iname" required>
                     </div>
                     <div class="data">
-                        <label for="image">Marksheet:</label>
+                        <label for="image">Certificate:</label>
                         <input type="file" name="image" required>
                     </div>
                     <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
@@ -258,6 +258,30 @@ th {
                     </form>
                 {% endif %}
             </div>
+            <h2 style="text-align: center; margin-top: 0%; padding-top: 20px; margin-bottom: 20px;">Cv</h2>
+            <hr>
+            {% if cv %}
+                <div class="cv" style="margin: 20px;">
+                    <img  src="{{cv.image.url}}" alt="sorry no data" style="width: 50px; height: 50px;">
+                </div>
+            {% endif %}
+            {% if cv %}
+                {% if page != "cvs" %}
+                    <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="#">Edit cv</a></button>
+                {% endif %}
+            {% else %}
+                <button style="margin-left: 20px; background-color: #26baee; border: none; width: 100px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'cv' %}">Add Cv</a></button>
+            {% endif %}
+            {% if page == "cvs" %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="data">
+                            <input type="file" name="image">
+                        </div>
+                        <input style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;" type="submit" value="Submit">
+                        <button style="background-color: #26baee; color: white; border: none; width: 100px; height: 30px; margin-left: 10px;"><a style="color: white; text-decoration: none;" href="{% url 'profile' %}">Cancel</a></button>
+                    </form>
+            {% endif %}
         </div>
         <div class="skills" style="width: 20vw; margin: 10px; box-shadow: 2px 2px 2px 2px gainsboro">
             

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from . models import *
+from accounts.models import *
 # Create your views here.
 
 
@@ -32,6 +34,24 @@ def category(request):
     return render(request, "category.html", content)
 
 
+def job_detail(request,id):
+    content={
+        "title" : "Detail page",
+        "job" : Job.objects.get(id=id)
+    }
+    return render(request, "job-detail.html", content)
+
 @login_required(login_url="login")
 def job_apply(request,id):
-    return render(request, "home.html")
+    job = Job.objects.get(id=id)
+    profile = UserProfile.objects.get(user=request.user)
+    content = {
+        "title" : "apply",
+        "job" : job,
+        "profile": profile
+    }
+    if  job.user == request.user:
+        messages.error(request,"Sorry you cannot apply your own job")
+        return redirect("home")
+    return render(request, "job-apply.html", content)
+    

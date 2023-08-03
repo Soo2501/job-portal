@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from accounts.models import *
 from job.models import *
+from .models import *
 # Create your views here.
 
 def home(request):
@@ -24,6 +25,7 @@ def add_edu(request):
         "edu": Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user),
     }
     if request.method == "POST":
         name = request.POST.get("name")
@@ -49,7 +51,8 @@ def edit_data(request, id):
         "edu" : Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
-        "page" : "edit"
+        "page" : "edit",
+        "cv" : Cv.objects.filter(user=request.user),
     }
     if request.method == "POST":
         educ.name = request.POST.get("name")
@@ -72,6 +75,7 @@ def add_tra(request):
         "edu": Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user),
     }
     if request.method == "POST":
         name = request.POST.get("name")
@@ -97,6 +101,7 @@ def add_skills(request):
         "edu": Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user),
     }
     if request.method == "POST":
         skills = request.POST.get("skills")
@@ -104,6 +109,40 @@ def add_skills(request):
         edudata.save()
         return redirect("profile")
     return render(request,"profile.html",content)
+
+def add_cv(request):
+    content = {
+        "title" : "profile",
+        "page" : "cv",
+        "user": UserProfile.objects.get(user=request.user),
+        "edu": Education.objects.filter(user=request.user),
+        "train" : Training.objects.filter(user=request.user),
+        "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user),
+    }
+    if request.method == "POST":
+        image = request.FILES.get("image")
+        edudata = Cv.objects.create(image=image, user=request.user)
+        edudata.save()
+        return redirect("profile")
+    return render(request,"profile.html",content)
+
+def edit_cv(request, id):
+    cvss = get_object_or_404(Cv, id=id, user=request.user)
+    content = {
+        "title" : "profile",
+        "page" : "cvs",
+        "user": UserProfile.objects.get(user=request.user),
+        "edu": Education.objects.filter(user=request.user),
+        "train" : Training.objects.filter(user=request.user),
+        "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user)
+    }
+    if request.method == "POST":
+        cvss.image = request.FILES.get("image")
+        cvss.save()
+        return redirect("profile")
+    return render(request, "profile.html", content)
 
 def add_language(request):
     content = {
@@ -113,6 +152,7 @@ def add_language(request):
         "edu": Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
+        "cv" : Cv.objects.filter(user=request.user),
     }
     if request.method == "POST":
         language = request.POST.get("language")
@@ -120,3 +160,15 @@ def add_language(request):
         edudata.save()
         return redirect("profile")
     return render(request,"profile.html",content)
+
+
+def search_data(request):
+    title = request.GET['title']
+    jtype = request.GET['jtype']
+    location = request.GET['location']
+    jobs = Job.objects.filter(title__icontains=title , jtype__icontains=jtype, location__icontains=location).values()
+    content = {
+        "jobs" : jobs,
+        "title" : "Search"
+    }
+    return render(request, "search.html", content)

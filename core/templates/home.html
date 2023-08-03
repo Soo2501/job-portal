@@ -103,16 +103,16 @@
         On The Net</p>
         <button style="width: 100px; height: 40px; border-radius:5px 5px 0 0; font-size: 15px;">Find a job</button>
         <div class="search" style="width: 50vw; height: 100px; background-color: white; border-radius: 5px;">
-            <form  >
-                <input type="text" placeholder=" eg. Web Developer">
-                <select name="category" style="width: 150px; background-color: white; border: 1px solid rgb(102, 100, 100);" >
-                    <option value="category">Category</option>
+            <form  method="get" action="{% url 'search' %}">
+                <input type="text" name="title" placeholder=" eg. Web Developer">
+                <select style="width: 150px; background-color: white; border: 1px solid rgb(102, 100, 100);" name="jtype" >
+                    <option value="">Category</option>
                     <option value="fulltime">FullTime</option>
                     <option value="parttime">PartTime</option>
                     <option value="internship">Internship</option>
                     <option value="contract">Contract</option>
                 </select>
-                <input type="text" placeholder=" Location">
+                <input type="text" placeholder=" Location" name="location">
                 <input type="submit" value="Submit" style="background-color: #26baee; border: none; width: 100px; color: white; border-radius: 5px;" class="hover">
             </form>
         </div>
@@ -124,13 +124,23 @@
         <button style="height: 40px; width: 200px;"><a href="{% url 'add-job' %}" style="text-decoration: none; color: white;">+ Post a Task</a></button>
     </div>
 
+    <!-- error messages -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <p style="color: red; text-align: center; font-size: 20px; font-weight: 200;">{{ message }}</p>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <!-- error messages ends here -->
+
     <!-- job card starts here -->
     {% for jobs in page_obj %}
         <div class="abcs" style="display: flex; justify-content: center;">
             <div class="cards" style="display: flex; justify-content: space-between; width: 50vw;  box-shadow: 0 1px 0 0 gray; margin-bottom: 5px; background-color: white;">
                 <div class="left">
                     <div class="inner-left" style="display: flex;">
-                        <h2>{{jobs.title}}</h2>
+                        <h2><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h2>
                         <p style="width: 70px; height: 25px; padding: 4px; color: white; background-color: rgb(151, 151, 32); border-radius: 10px; margin-left: 10px; margin-top: 20px;">{{jobs.jtype}}</p>
                     </div>
                     <div class="inner-left" style="display: flex;">
@@ -140,11 +150,11 @@
                 </div>
                 <div class="right" style="display: flex;">
                     <p style="margin-top: 25px; width: 40px; height: 40px; text-align: center; border-radius: 50%; background-color: rgb(202, 198, 198);"><span class="material-symbols-outlined" style="color: gray; padding-top: 8px;">favorite</span></p>
-                    <button style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="{% url 'apply' jobs.id%}" style="color: white; text-decoration: none;">Apply</a></button>
+                    <button  style="width: 100px; height: 40px; border-radius: 10px; margin-top:25px; margin-left: 10px;"><a href="{% url 'apply' jobs.id%}" style="color: white; text-decoration: none;">Apply</a></button>
                 </div>
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
 
     <div class="pagination" style="margin-top: 40px; display: flex; justify-content: center;">
         <span class="step-links">

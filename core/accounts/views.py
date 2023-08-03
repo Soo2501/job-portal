@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import *
+from client.models import *
 from django.contrib import messages
 # Create your views here.
 
@@ -59,7 +60,8 @@ def user_profile(request):
         "edu" : Education.objects.filter(user=request.user),
         "train" : Training.objects.filter(user=request.user),
         "skills" : Skills.objects.filter(user=request.user),
-        "paage" : "profile"
+        "paage" : "profile",
+        "cv" : Cv.objects.filter(user=request.user)
 
     }
     return render(request, "profile.html", content)
@@ -70,6 +72,7 @@ def update_profile(request):
     edu = Education.objects.filter(user=request.user)
     train = Training.objects.filter(user=request.user)
     skills = Skills.objects.filter(user=request.user)
+    cv = Cv.objects.get(user=request.user)
 
     if request.method == "POST":
         user.user.first_name = request.POST.get('firstname')

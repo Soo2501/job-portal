@@ -21,9 +21,8 @@ h2 {
 }
 
 .cards {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
 }
 
 .inner-card {
@@ -31,7 +30,7 @@ h2 {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 400px;
   margin: 10px;
 }
 
@@ -58,8 +57,8 @@ p {
         {% for jobs in jobs %}
             {% if jobs.jtype == "fulltime" %}
                 <div class="inner-card">
-                    <h3>{{jobs.title}}</h3>
-                    <p>{{jobs.company}}</p>
+                    <h3><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h3>
+                    <p><a href="{{jobs.wsite}}">{{jobs.company}}</a></p>
                     <p>{{jobs.location}}</p>
                     <p>{{jobs.wsite}}</p>
                     <div class="div" style="display: flex; justify-content: space-between;">
@@ -78,8 +77,8 @@ p {
         {% for jobs in jobs %}
             {% if jobs.jtype == "parttime" %}
                 <div class="inner-card">
-                    <h3>{{jobs.title}}</h3>
-                    <p>{{jobs.company}}</p>
+                    <h3><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h3>
+                    <p><a href="{{jobs.wsite}}">{{jobs.company}}</a></p>
                     <p>{{jobs.location}}</p>
                     <p>{{jobs.wsite}}</p>
                     <div class="div" style="display: flex; justify-content: space-between;">
@@ -98,13 +97,13 @@ p {
         {% for jobs in jobs %}
             {% if jobs.jtype == "contract" %}
                 <div class="inner-card">
-                    <h3>{{jobs.title}}</h3>
-                    <p>{{jobs.company}}</p>
+                    <h3><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h3>
+                    <p><a href="{{jobs.wsite}}">{{jobs.company}}</a></p>
                     <p>{{jobs.location}}</p>
                     <p>{{jobs.wsite}}</p>
                     <div class="div" style="display: flex; justify-content: space-between;">
                         <p>deadline: 2021/03/03</p>
-                        <button style="background-color:#26baee; border: none; width: 50px; height: 30px;"><a style="text-decoration: none; color: white;" href="#">Apply</a></button>
+                        <button style="background-color:#26baee; border: none; width: 50px; height: 30px;"><a style="text-decoration: none; color: white;" href="{% url 'apply' jobs.id %}">Apply</a></button>
                     </div>
                 </div>
             {% endif %}
@@ -118,8 +117,8 @@ p {
         {% for jobs in jobs %}
             {% if jobs.jtype == "internship" %}
                 <div class="inner-card">
-                    <h3>{{jobs.title}}</h3>
-                    <p>{{jobs.company}}</p>
+                    <h3><a href="{% url 'detail' jobs.id %}" style="text-decoration: none; color: black;">{{jobs.title}}</a></h3>
+                    <p><a href="{{jobs.wsite}}">{{jobs.company}}</a></p>
                     <p>{{jobs.location}}</p>
                     <p>{{jobs.wsite}}</p>
                     <div class="div" style="display: flex; justify-content: space-between;">

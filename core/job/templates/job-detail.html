@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+.content{
+    background-color: rgb(235, 235, 232);
+    display: flex;
+    justify-content: center;
+}
+.main-content{
+    width: 60vw;
+    margin: 50px;
+}
+button{
+    background-color: #26baee;
+    border: none;
+    width: 100px;
+    height: 30px;
+}
+button:hover{
+    background-color: #183f4d;
+    color: white;
+}
+</style>
+{% endblock  %}
+
+{% block content  %}
+<div class="content">
+    <div class="main-content">
+        <h1>{{job.title}}</h1>
+        <h4>Company Name: {{job.company}}</h4>
+        <h4>Job Location: {{job.location}}</h4>
+        <p><a href="{{job.wsite}}" target="_blank">{{job.wsite}}</a></p>
+        <h4>Description:</h4><p> {{job.desc}}</p>
+        <h4>Requirements:</h4><p>{{job.requirements}}</p>
+        <h4>Deadline:</h4><p>{{job.deadline}}</p>
+        <div class="buttons">
+            <button><a href="{% url 'apply' job.id %}" style="color: white; text-decoration: none;">Apply</a></button>
+        </div>
+    </div>
+</div>
+{% include "footer.html" %}
+{% endblock  %}
